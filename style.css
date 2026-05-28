@@ -644,49 +644,6 @@ footer a:hover {
     }
 }
 
-/* Desktop Sidebar Ad */
-@media (min-width: 1200px) {
-    .container {
-        display: grid;
-        grid-template-columns: 1fr 320px;
-        gap: var(--spacing-lg);
-        grid-template-areas:
-            "header header"
-            "ad-top ad-top"
-            "main sidebar"
-            "content sidebar"
-            "footer footer";
-    }
-
-    header {
-        grid-area: header;
-    }
-
-    .ad-top {
-        grid-area: ad-top;
-    }
-
-    main {
-        grid-area: main;
-    }
-
-    .content-section {
-        grid-column: 1;
-    }
-
-    .ad-sidebar {
-        grid-area: sidebar;
-        display: block;
-        position: sticky;
-        top: var(--spacing-md);
-        align-self: start;
-    }
-
-    footer {
-        grid-area: footer;
-    }
-}
-
 /* Animations */
 @keyframes fadeIn {
     from {

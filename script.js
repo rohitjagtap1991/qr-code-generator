@@ -3,7 +3,43 @@
 
 class QRCodeGenerator {
     constructor() {
-        // DOM Elements
+        // DOM Elements - Content Type
+        this.contentTypeSelect = document.getElementById('content-type');
+
+        // DOM Elements - Forms
+        this.textForm = document.getElementById('text-form');
+        this.wifiForm = document.getElementById('wifi-form');
+        this.vcardForm = document.getElementById('vcard-form');
+        this.emailForm = document.getElementById('email-form');
+        this.phoneForm = document.getElementById('phone-form');
+        this.smsForm = document.getElementById('sms-form');
+
+        // DOM Elements - WiFi form inputs
+        this.wifiSSID = document.getElementById('wifi-ssid');
+        this.wifiPassword = document.getElementById('wifi-password');
+        this.wifiEncryption = document.getElementById('wifi-encryption');
+        this.wifiHidden = document.getElementById('wifi-hidden');
+
+        // DOM Elements - vCard form inputs
+        this.vcardName = document.getElementById('vcard-name');
+        this.vcardPhone = document.getElementById('vcard-phone');
+        this.vcardEmail = document.getElementById('vcard-email');
+        this.vcardCompany = document.getElementById('vcard-company');
+        this.vcardURL = document.getElementById('vcard-url');
+
+        // DOM Elements - Email form inputs
+        this.emailTo = document.getElementById('email-to');
+        this.emailSubject = document.getElementById('email-subject');
+        this.emailBody = document.getElementById('email-body');
+
+        // DOM Elements - Phone form input
+        this.phoneNumber = document.getElementById('phone-number');
+
+        // DOM Elements - SMS form inputs
+        this.smsNumber = document.getElementById('sms-number');
+        this.smsMessage = document.getElementById('sms-message');
+
+        // DOM Elements - Text inputs
         this.textInput = document.getElementById('qr-text');
         this.sizeSelect = document.getElementById('qr-size');
         this.formatSelect = document.getElementById('qr-format');
@@ -14,12 +50,18 @@ class QRCodeGenerator {
         this.charCount = document.getElementById('char-count');
         this.generateBtn = document.getElementById('generate-btn');
         this.downloadBtn = document.getElementById('download-btn');
+        this.copyBtn = document.getElementById('copy-btn');
         this.clearBtn = document.getElementById('clear-btn');
         this.qrContainer = document.getElementById('qr-code-container');
+
+        // DOM Elements - History
+        this.historySection = document.getElementById('history-section');
+        this.historyList = document.getElementById('history-list');
 
         // State
         this.currentQRCode = null;
         this.currentCanvas = null;
+        this.currentData = null;
 
         // Initialize
         this.init();
@@ -29,14 +71,26 @@ class QRCodeGenerator {
         this.attachEventListeners();
         this.updateCharCount();
         this.updateColorText();
+        this.switchContentType(); // Initialize form visibility
+        if (this.historySection) this.loadHistory(); // Load history if element exists
     }
 
     attachEventListeners() {
+        // Content type selector
+        if (this.contentTypeSelect) {
+            this.contentTypeSelect.addEventListener('change', () => this.switchContentType());
+        }
+
         // Generate button
         this.generateBtn.addEventListener('click', () => this.generateQRCode());
 
         // Download button
         this.downloadBtn.addEventListener('click', () => this.downloadQRCode());
+
+        // Copy button
+        if (this.copyBtn) {
+            this.copyBtn.addEventListener('click', () => this.copyToClipboard());
+        }
 
         // Clear button
         this.clearBtn.addEventListener('click', () => this.clearAll());
@@ -186,6 +240,130 @@ class QRCodeGenerator {
         }
     }
 
+    switchContentType() {
+        if (!this.contentTypeSelect) return;
+
+        const type = this.contentTypeSelect.value;
+
+        // Hide all forms
+        const forms = [this.textForm, this.wifiForm, this.vcardForm, this.emailForm, this.phoneForm, this.smsForm];
+        forms.forEach(form => {
+            if (form) form.style.display = 'none';
+        });
+
+        // Show selected form
+        const formMap = {
+            'text': this.textForm,
+            'wifi': this.wifiForm,
+            'vcard': this.vcardForm,
+            'email': this.emailForm,
+            'phone': this.phoneForm,
+            'sms': this.smsForm
+        };
+
+        const selectedForm = formMap[type];
+        if (selectedForm) {
+            selectedForm.style.display = 'flex';
+        }
+    }
+
+    getQRData() {
+        if (!this.contentTypeSelect) {
+            return this.textInput.value.trim();
+        }
+
+        const type = this.contentTypeSelect.value;
+
+        switch (type) {
+            case 'text':
+                return this.textInput.value.trim();
+
+            case 'wifi':
+                if (!this.wifiSSID || !this.wifiSSID.value.trim()) {
+                    this.showError('Please enter network name (SSID)');
+                    return null;
+                }
+                const ssid = this.wifiSSID.value.trim();
+                const password = this.wifiPassword ? this.wifiPassword.value : '';
+                const encryption = this.wifiEncryption ? this.wifiEncryption.value : 'WPA';
+                const hidden = this.wifiHidden ? this.wifiHidden.checked : false;
+
+                let wifiString = `WIFI:S:${ssid};T:${encryption};`;
+                if (encryption !== 'nopass' && password) {
+                    wifiString += `P:${password};`;
+                }
+                if (hidden) {
+                    wifiString += 'H:true;';
+                }
+                wifiString += ';';
+                return wifiString;
+
+            case 'vcard':
+                const name = this.vcardName ? this.vcardName.value.trim() : '';
+                const phone = this.vcardPhone ? this.vcardPhone.value.trim() : '';
+                const email = this.vcardEmail ? this.vcardEmail.value.trim() : '';
+                const company = this.vcardCompany ? this.vcardCompany.value.trim() : '';
+                const url = this.vcardURL ? this.vcardURL.value.trim() : '';
+
+                if (!name && !phone && !email) {
+                    this.showError('Please enter at least name, phone, or email');
+                    return null;
+                }
+
+                let vcard = 'BEGIN:VCARD\n';
+                vcard += 'VERSION:3.0\n';
+                if (name) vcard += `FN:${name}\n`;
+                if (phone) vcard += `TEL:${phone}\n`;
+                if (email) vcard += `EMAIL:${email}\n`;
+                if (company) vcard += `ORG:${company}\n`;
+                if (url) vcard += `URL:${url}\n`;
+                vcard += 'END:VCARD';
+                return vcard;
+
+            case 'email':
+                const emailTo = this.emailTo ? this.emailTo.value.trim() : '';
+                if (!emailTo) {
+                    this.showError('Please enter email address');
+                    return null;
+                }
+                const subject = this.emailSubject ? this.emailSubject.value.trim() : '';
+                const body = this.emailBody ? this.emailBody.value.trim() : '';
+
+                let mailto = `mailto:${emailTo}`;
+                const params = [];
+                if (subject) params.push(`subject=${encodeURIComponent(subject)}`);
+                if (body) params.push(`body=${encodeURIComponent(body)}`);
+                if (params.length > 0) {
+                    mailto += '?' + params.join('&');
+                }
+                return mailto;
+
+            case 'phone':
+                const phoneNum = this.phoneNumber ? this.phoneNumber.value.trim() : '';
+                if (!phoneNum) {
+                    this.showError('Please enter phone number');
+                    return null;
+                }
+                return `tel:${phoneNum}`;
+
+            case 'sms':
+                const smsNum = this.smsNumber ? this.smsNumber.value.trim() : '';
+                if (!smsNum) {
+                    this.showError('Please enter phone number');
+                    return null;
+                }
+                const message = this.smsMessage ? this.smsMessage.value.trim() : '';
+                let sms = `SMSTO:${smsNum}`;
+                if (message) {
+                    sms += `:${message}`;
+                }
+                return sms;
+
+            default:
+                return this.textInput.value.trim();
+        }
+    }
+
     generateFilename(format) {
         const text = this.textInput.value.trim();
 
@@ -246,18 +424,20 @@ class QRCodeGenerator {
     }
 
     generateQRCode() {
-        const text = this.textInput.value.trim();
+        const data = this.getQRData();
 
         // Validation
-        if (!text) {
-            this.showError(window.i18n.t('errorEmpty'));
-            return;
+        if (!data) {
+            return; // Error already shown in getQRData()
         }
 
-        if (text.length > 1800) {
+        if (data.length > 1800) {
             this.showError(window.i18n.t('errorTooLong'));
             return;
         }
+
+        // Store current data for re-generation and history
+        this.currentData = data;
 
         // Show loading state
         this.generateBtn.classList.add('loading');
@@ -266,10 +446,14 @@ class QRCodeGenerator {
         // Small delay to show loading animation
         setTimeout(() => {
             try {
-                this.createQRCode(text);
+                this.createQRCode(data);
                 this.downloadBtn.disabled = false;
+                if (this.copyBtn) this.copyBtn.disabled = false;
                 this.generateBtn.classList.remove('loading');
                 this.generateBtn.disabled = false;
+
+                // Save to history
+                this.saveToHistory();
             } catch (error) {
                 console.error('QR Code generation error:', error);
                 this.showError(window.i18n.t('errorGenerate'));
@@ -435,8 +619,174 @@ class QRCodeGenerator {
         this.showSuccess(window.i18n.t('successDownload'));
     }
 
+    async copyToClipboard() {
+        if (!this.currentCanvas) {
+            return;
+        }
+
+        try {
+            this.currentCanvas.toBlob(async (blob) => {
+                try {
+                    await navigator.clipboard.write([
+                        new ClipboardItem({
+                            'image/png': blob
+                        })
+                    ]);
+                    this.showSuccess('QR Code copied to clipboard!');
+                } catch (err) {
+                    console.error('Failed to copy:', err);
+                    this.showError('Failed to copy to clipboard');
+                }
+            });
+        } catch (err) {
+            console.error('Failed to copy:', err);
+            this.showError('Failed to copy to clipboard');
+        }
+    }
+
+    saveToHistory() {
+        if (!this.historySection || !this.currentData) return;
+
+        const type = this.contentTypeSelect ? this.contentTypeSelect.value : 'text';
+        let preview = '';
+
+        switch (type) {
+            case 'text':
+                preview = this.currentData.substring(0, 50);
+                break;
+            case 'wifi':
+                const ssidMatch = this.currentData.match(/S:([^;]+)/);
+                preview = `WiFi: ${ssidMatch ? ssidMatch[1] : 'Network'}`;
+                break;
+            case 'vcard':
+                const nameMatch = this.currentData.match(/FN:([^\n]+)/);
+                preview = `Contact: ${nameMatch ? nameMatch[1] : 'Card'}`;
+                break;
+            case 'email':
+                const emailMatch = this.currentData.match(/mailto:([^?]+)/);
+                preview = `Email: ${emailMatch ? emailMatch[1] : ''}`;
+                break;
+            case 'phone':
+                preview = `Phone: ${this.currentData.replace('tel:', '')}`;
+                break;
+            case 'sms':
+                const smsMatch = this.currentData.match(/SMSTO:([^:]+)/);
+                preview = `SMS: ${smsMatch ? smsMatch[1] : ''}`;
+                break;
+            default:
+                preview = this.currentData.substring(0, 50);
+        }
+
+        const historyItem = {
+            type: type,
+            preview: preview,
+            data: this.currentData,
+            timestamp: Date.now()
+        };
+
+        let history = JSON.parse(localStorage.getItem('qr-history') || '[]');
+        history.unshift(historyItem);
+        history = history.slice(0, 10);
+        localStorage.setItem('qr-history', JSON.stringify(history));
+
+        this.renderHistory();
+    }
+
+    loadHistory() {
+        this.renderHistory();
+    }
+
+    renderHistory() {
+        if (!this.historySection || !this.historyList) return;
+
+        const history = JSON.parse(localStorage.getItem('qr-history') || '[]');
+
+        if (history.length === 0) {
+            this.historySection.style.display = 'none';
+            return;
+        }
+
+        this.historySection.style.display = 'block';
+        this.historyList.innerHTML = '';
+
+        const typeLabels = {
+            'text': 'Text/URL',
+            'wifi': 'WiFi',
+            'vcard': 'Contact',
+            'email': 'Email',
+            'phone': 'Phone',
+            'sms': 'SMS'
+        };
+
+        history.forEach((item, index) => {
+            const historyItem = document.createElement('div');
+            historyItem.className = 'history-item';
+
+            historyItem.innerHTML = `
+                <div class="history-item-content">
+                    <div class="history-item-type">${typeLabels[item.type] || 'QR Code'}</div>
+                    <div class="history-item-preview">${item.preview}</div>
+                </div>
+                <button class="history-item-delete" data-index="${index}" title="Delete">×</button>
+            `;
+
+            historyItem.querySelector('.history-item-content').addEventListener('click', () => {
+                this.loadFromHistory(item);
+            });
+
+            historyItem.querySelector('.history-item-delete').addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.deleteFromHistory(index);
+            });
+
+            this.historyList.appendChild(historyItem);
+        });
+    }
+
+    loadFromHistory(item) {
+        this.currentData = item.data;
+        this.createQRCode(item.data);
+        this.downloadBtn.disabled = false;
+        if (this.copyBtn) this.copyBtn.disabled = false;
+    }
+
+    deleteFromHistory(index) {
+        let history = JSON.parse(localStorage.getItem('qr-history') || '[]');
+        history.splice(index, 1);
+        localStorage.setItem('qr-history', JSON.stringify(history));
+        this.renderHistory();
+    }
+
     clearAll() {
+        // Clear text form
         this.textInput.value = '';
+
+        // Clear WiFi form
+        if (this.wifiSSID) this.wifiSSID.value = '';
+        if (this.wifiPassword) this.wifiPassword.value = '';
+        if (this.wifiEncryption) this.wifiEncryption.value = 'WPA';
+        if (this.wifiHidden) this.wifiHidden.checked = false;
+
+        // Clear vCard form
+        if (this.vcardName) this.vcardName.value = '';
+        if (this.vcardPhone) this.vcardPhone.value = '';
+        if (this.vcardEmail) this.vcardEmail.value = '';
+        if (this.vcardCompany) this.vcardCompany.value = '';
+        if (this.vcardURL) this.vcardURL.value = '';
+
+        // Clear email form
+        if (this.emailTo) this.emailTo.value = '';
+        if (this.emailSubject) this.emailSubject.value = '';
+        if (this.emailBody) this.emailBody.value = '';
+
+        // Clear phone form
+        if (this.phoneNumber) this.phoneNumber.value = '';
+
+        // Clear SMS form
+        if (this.smsNumber) this.smsNumber.value = '';
+        if (this.smsMessage) this.smsMessage.value = '';
+
+        // Reset QR display
         this.qrContainer.innerHTML = `
             <div class="placeholder">
                 <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -450,7 +800,9 @@ class QRCodeGenerator {
         `;
         this.currentQRCode = null;
         this.currentCanvas = null;
+        this.currentData = null;
         this.downloadBtn.disabled = true;
+        if (this.copyBtn) this.copyBtn.disabled = true;
         this.updateCharCount();
     }
 

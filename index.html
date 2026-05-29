@@ -98,12 +98,128 @@
             <div class="tool-wrapper">
                 <!-- Left Panel: Input & Options -->
                 <div class="input-panel">
+                    <!-- Content Type Selector -->
                     <div class="input-group">
-                        <label for="qr-text" data-i18n="inputLabel">Enter Text or URL</label>
-                        <textarea id="qr-text" data-i18n="inputPlaceholder"
-                            placeholder="https://example.com or any text..." rows="4" maxlength="1800"></textarea>
-                        <small class="char-count"><span id="char-count">0</span> / 1800 <span
-                                data-i18n="characters">characters</span></small>
+                        <label for="content-type" data-i18n="contentTypeLabel">Content Type</label>
+                        <select id="content-type">
+                            <option value="text" selected data-i18n-option="typeText">📝 Plain Text / URL</option>
+                            <option value="wifi" data-i18n-option="typeWifi">📶 WiFi Network</option>
+                            <option value="vcard" data-i18n-option="typeVCard">👤 Contact Card (vCard)</option>
+                            <option value="email" data-i18n-option="typeEmail">📧 Email</option>
+                            <option value="phone" data-i18n-option="typePhone">📞 Phone Number</option>
+                            <option value="sms" data-i18n-option="typeSMS">💬 SMS Message</option>
+                        </select>
+                    </div>
+
+                    <!-- Plain Text/URL Input (default) -->
+                    <div id="text-form" class="content-form">
+                        <div class="input-group">
+                            <label for="qr-text" data-i18n="inputLabel">Enter Text or URL</label>
+                            <textarea id="qr-text" data-i18n="inputPlaceholder"
+                                placeholder="https://example.com or any text..." rows="4" maxlength="1800"></textarea>
+                            <small class="char-count"><span id="char-count">0</span> / 1800 <span
+                                    data-i18n="characters">characters</span></small>
+                        </div>
+                    </div>
+
+                    <!-- WiFi Form (hidden by default) -->
+                    <div id="wifi-form" class="content-form" style="display: none;">
+                        <div class="input-group">
+                            <label for="wifi-ssid" data-i18n="wifiSSIDLabel">Network Name (SSID)</label>
+                            <input type="text" id="wifi-ssid" data-i18n="wifiSSIDPlaceholder"
+                                placeholder="MyWiFiNetwork" maxlength="100">
+                        </div>
+                        <div class="input-group">
+                            <label for="wifi-password" data-i18n="wifiPasswordLabel">Password</label>
+                            <input type="text" id="wifi-password" data-i18n="wifiPasswordPlaceholder"
+                                placeholder="Enter WiFi password" maxlength="100">
+                        </div>
+                        <div class="input-group">
+                            <label for="wifi-encryption" data-i18n="wifiEncryptionLabel">Security Type</label>
+                            <select id="wifi-encryption">
+                                <option value="WPA" selected>WPA/WPA2</option>
+                                <option value="WEP">WEP</option>
+                                <option value="nopass">None (Open Network)</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>
+                                <input type="checkbox" id="wifi-hidden">
+                                <span data-i18n="wifiHiddenLabel">Hidden Network</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- vCard Form (hidden by default) -->
+                    <div id="vcard-form" class="content-form" style="display: none;">
+                        <div class="input-group">
+                            <label for="vcard-name" data-i18n="vcardNameLabel">Full Name</label>
+                            <input type="text" id="vcard-name" data-i18n="vcardNamePlaceholder" placeholder="John Doe"
+                                maxlength="100">
+                        </div>
+                        <div class="input-group">
+                            <label for="vcard-phone" data-i18n="vcardPhoneLabel">Phone Number</label>
+                            <input type="tel" id="vcard-phone" data-i18n="vcardPhonePlaceholder"
+                                placeholder="+1234567890" maxlength="20">
+                        </div>
+                        <div class="input-group">
+                            <label for="vcard-email" data-i18n="vcardEmailLabel">Email Address</label>
+                            <input type="email" id="vcard-email" data-i18n="vcardEmailPlaceholder"
+                                placeholder="john@example.com" maxlength="100">
+                        </div>
+                        <div class="input-group">
+                            <label for="vcard-company" data-i18n="vcardCompanyLabel">Company (optional)</label>
+                            <input type="text" id="vcard-company" data-i18n="vcardCompanyPlaceholder"
+                                placeholder="Company Name" maxlength="100">
+                        </div>
+                        <div class="input-group">
+                            <label for="vcard-url" data-i18n="vcardURLLabel">Website (optional)</label>
+                            <input type="url" id="vcard-url" data-i18n="vcardURLPlaceholder"
+                                placeholder="https://example.com" maxlength="200">
+                        </div>
+                    </div>
+
+                    <!-- Email Form (hidden by default) -->
+                    <div id="email-form" class="content-form" style="display: none;">
+                        <div class="input-group">
+                            <label for="email-to" data-i18n="emailToLabel">Email Address</label>
+                            <input type="email" id="email-to" data-i18n="emailToPlaceholder"
+                                placeholder="recipient@example.com" maxlength="100">
+                        </div>
+                        <div class="input-group">
+                            <label for="email-subject" data-i18n="emailSubjectLabel">Subject (optional)</label>
+                            <input type="text" id="email-subject" data-i18n="emailSubjectPlaceholder"
+                                placeholder="Email subject" maxlength="200">
+                        </div>
+                        <div class="input-group">
+                            <label for="email-body" data-i18n="emailBodyLabel">Message (optional)</label>
+                            <textarea id="email-body" data-i18n="emailBodyPlaceholder" placeholder="Email message..."
+                                rows="3" maxlength="500"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Phone Form (hidden by default) -->
+                    <div id="phone-form" class="content-form" style="display: none;">
+                        <div class="input-group">
+                            <label for="phone-number" data-i18n="phoneNumberLabel">Phone Number</label>
+                            <input type="tel" id="phone-number" data-i18n="phoneNumberPlaceholder"
+                                placeholder="+1234567890" maxlength="20">
+                            <small data-i18n="phoneNumberHint">Include country code (e.g., +1 for US)</small>
+                        </div>
+                    </div>
+
+                    <!-- SMS Form (hidden by default) -->
+                    <div id="sms-form" class="content-form" style="display: none;">
+                        <div class="input-group">
+                            <label for="sms-number" data-i18n="smsNumberLabel">Phone Number</label>
+                            <input type="tel" id="sms-number" data-i18n="smsNumberPlaceholder" placeholder="+1234567890"
+                                maxlength="20">
+                        </div>
+                        <div class="input-group">
+                            <label for="sms-message" data-i18n="smsMessageLabel">Message (optional)</label>
+                            <textarea id="sms-message" data-i18n="smsMessagePlaceholder"
+                                placeholder="Pre-filled SMS message..." rows="3" maxlength="300"></textarea>
+                        </div>
                     </div>
 
                     <div class="options-grid">
@@ -149,7 +265,15 @@
                             Code</button>
                         <button id="download-btn" class="btn btn-secondary" disabled data-i18n="downloadBtn">Download QR
                             Code</button>
+                        <button id="copy-btn" class="btn btn-secondary" disabled data-i18n="copyBtn">Copy to
+                            Clipboard</button>
                         <button id="clear-btn" class="btn btn-tertiary" data-i18n="clearBtn">Clear</button>
+                    </div>
+
+                    <!-- Download History -->
+                    <div id="history-section" class="history-section" style="display: none;">
+                        <h4 data-i18n="historyTitle">Recent QR Codes</h4>
+                        <div id="history-list" class="history-list"></div>
                     </div>
                 </div>
 

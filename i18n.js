@@ -12,6 +12,54 @@ const translations = {
         inputPlaceholder: "https://example.com or any text...",
         characters: "characters",
 
+        // Content Type
+        contentTypeLabel: "Content Type",
+        typeText: "📝 Plain Text / URL",
+        typeWifi: "📶 WiFi Network",
+        typeVCard: "👤 Contact Card (vCard)",
+        typeEmail: "📧 Email",
+        typePhone: "📞 Phone Number",
+        typeSMS: "💬 SMS Message",
+
+        // WiFi Form
+        wifiSSIDLabel: "Network Name (SSID)",
+        wifiSSIDPlaceholder: "MyWiFiNetwork",
+        wifiPasswordLabel: "Password",
+        wifiPasswordPlaceholder: "Enter WiFi password",
+        wifiEncryptionLabel: "Security Type",
+        wifiHiddenLabel: "Hidden Network",
+
+        // vCard Form
+        vcardNameLabel: "Full Name",
+        vcardNamePlaceholder: "John Doe",
+        vcardPhoneLabel: "Phone Number",
+        vcardPhonePlaceholder: "+1234567890",
+        vcardEmailLabel: "Email Address",
+        vcardEmailPlaceholder: "john@example.com",
+        vcardCompanyLabel: "Company (optional)",
+        vcardCompanyPlaceholder: "Company Name",
+        vcardURLLabel: "Website (optional)",
+        vcardURLPlaceholder: "https://example.com",
+
+        // Email Form
+        emailToLabel: "Email Address",
+        emailToPlaceholder: "recipient@example.com",
+        emailSubjectLabel: "Subject (optional)",
+        emailSubjectPlaceholder: "Email subject",
+        emailBodyLabel: "Message (optional)",
+        emailBodyPlaceholder: "Email message...",
+
+        // Phone Form
+        phoneNumberLabel: "Phone Number",
+        phoneNumberPlaceholder: "+1234567890",
+        phoneNumberHint: "Include country code (e.g., +1 for US)",
+
+        // SMS Form
+        smsNumberLabel: "Phone Number",
+        smsNumberPlaceholder: "+1234567890",
+        smsMessageLabel: "Message (optional)",
+        smsMessagePlaceholder: "Pre-filled SMS message...",
+
         // Size & Format
         sizeLabel: "QR Code Size",
         sizeSmall: "Small (256x256)",
@@ -28,7 +76,11 @@ const translations = {
         // Buttons
         generateBtn: "Generate QR Code",
         downloadBtn: "Download QR Code",
+        copyBtn: "Copy to Clipboard",
         clearBtn: "Clear",
+
+        // History
+        historyTitle: "Recent QR Codes",
 
         // Preview
         previewTitle: "Preview",
@@ -113,6 +165,54 @@ const translations = {
         inputPlaceholder: "https://ejemplo.com o cualquier texto...",
         characters: "caracteres",
 
+        // Content Type
+        contentTypeLabel: "Tipo de Contenido",
+        typeText: "📝 Texto Simple / URL",
+        typeWifi: "📶 Red WiFi",
+        typeVCard: "👤 Tarjeta de Contacto (vCard)",
+        typeEmail: "📧 Correo Electrónico",
+        typePhone: "📞 Número de Teléfono",
+        typeSMS: "💬 Mensaje SMS",
+
+        // WiFi Form
+        wifiSSIDLabel: "Nombre de Red (SSID)",
+        wifiSSIDPlaceholder: "MiRedWiFi",
+        wifiPasswordLabel: "Contraseña",
+        wifiPasswordPlaceholder: "Ingresa contraseña WiFi",
+        wifiEncryptionLabel: "Tipo de Seguridad",
+        wifiHiddenLabel: "Red Oculta",
+
+        // vCard Form
+        vcardNameLabel: "Nombre Completo",
+        vcardNamePlaceholder: "Juan Pérez",
+        vcardPhoneLabel: "Número de Teléfono",
+        vcardPhonePlaceholder: "+1234567890",
+        vcardEmailLabel: "Correo Electrónico",
+        vcardEmailPlaceholder: "juan@ejemplo.com",
+        vcardCompanyLabel: "Empresa (opcional)",
+        vcardCompanyPlaceholder: "Nombre de Empresa",
+        vcardURLLabel: "Sitio Web (opcional)",
+        vcardURLPlaceholder: "https://ejemplo.com",
+
+        // Email Form
+        emailToLabel: "Correo Electrónico",
+        emailToPlaceholder: "destinatario@ejemplo.com",
+        emailSubjectLabel: "Asunto (opcional)",
+        emailSubjectPlaceholder: "Asunto del correo",
+        emailBodyLabel: "Mensaje (opcional)",
+        emailBodyPlaceholder: "Mensaje del correo...",
+
+        // Phone Form
+        phoneNumberLabel: "Número de Teléfono",
+        phoneNumberPlaceholder: "+1234567890",
+        phoneNumberHint: "Incluye código de país (ej., +1 para EE.UU.)",
+
+        // SMS Form
+        smsNumberLabel: "Número de Teléfono",
+        smsNumberPlaceholder: "+1234567890",
+        smsMessageLabel: "Mensaje (opcional)",
+        smsMessagePlaceholder: "Mensaje SMS prellenado...",
+
         // Size & Format
         sizeLabel: "Tamaño del Código QR",
         sizeSmall: "Pequeño (256x256)",
@@ -129,7 +229,11 @@ const translations = {
         // Buttons
         generateBtn: "Generar Código QR",
         downloadBtn: "Descargar Código QR",
+        copyBtn: "Copiar al Portapapeles",
         clearBtn: "Limpiar",
+
+        // History
+        historyTitle: "Códigos QR Recientes",
 
         // Preview
         previewTitle: "Vista Previa",

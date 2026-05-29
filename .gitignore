@@ -54,6 +54,7 @@ TODO.md
 
 # Business & Strategy Documents (Keep Private)
 _business-private/
+.github/
 
 # Backup Files
 *.bak

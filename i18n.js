@@ -147,7 +147,13 @@ const translations = {
         errorSameColor: "Foreground and background colors cannot be the same!",
         errorGenerate: "Failed to generate QR code. Text might be too long or complex. Try reducing the length.",
         errorDownload: "Please generate a QR code first",
+        errorWifiSSID: "Please enter network name (SSID)",
+        errorVCardInfo: "Please enter at least name, phone, or email",
+        errorEmailAddress: "Please enter email address",
+        errorPhoneNumber: "Please enter phone number",
+        errorCopyFailed: "Failed to copy to clipboard",
         successDownload: "QR code downloaded successfully!",
+        successCopy: "Copied to clipboard!",
 
         // Language Switcher
         language: "Language",
@@ -300,7 +306,13 @@ const translations = {
         errorSameColor: "¡Los colores principal y de fondo no pueden ser iguales!",
         errorGenerate: "Error al generar el código QR. El texto podría ser demasiado largo o complejo. Intenta reducir la longitud.",
         errorDownload: "Por favor genera un código QR primero",
+        errorWifiSSID: "Por favor ingresa el nombre de la red (SSID)",
+        errorVCardInfo: "Por favor ingresa al menos nombre, teléfono o correo electrónico",
+        errorEmailAddress: "Por favor ingresa la dirección de correo electrónico",
+        errorPhoneNumber: "Por favor ingresa el número de teléfono",
+        errorCopyFailed: "Error al copiar al portapapeles",
         successDownload: "¡Código QR descargado exitosamente!",
+        successCopy: "¡Copiado al portapapeles!",
 
         // Language Switcher
         language: "Idioma",

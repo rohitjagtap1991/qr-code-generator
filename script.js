@@ -280,7 +280,7 @@ class QRCodeGenerator {
 
             case 'wifi':
                 if (!this.wifiSSID || !this.wifiSSID.value.trim()) {
-                    this.showError('Please enter network name (SSID)');
+                    this.showError(window.i18n.t('errorWifiSSID'));
                     return null;
                 }
                 const ssid = this.wifiSSID.value.trim();
@@ -306,7 +306,7 @@ class QRCodeGenerator {
                 const url = this.vcardURL ? this.vcardURL.value.trim() : '';
 
                 if (!name && !phone && !email) {
-                    this.showError('Please enter at least name, phone, or email');
+                    this.showError(window.i18n.t('errorVCardInfo'));
                     return null;
                 }
 
@@ -323,7 +323,7 @@ class QRCodeGenerator {
             case 'email':
                 const emailTo = this.emailTo ? this.emailTo.value.trim() : '';
                 if (!emailTo) {
-                    this.showError('Please enter email address');
+                    this.showError(window.i18n.t('errorEmailAddress'));
                     return null;
                 }
                 const subject = this.emailSubject ? this.emailSubject.value.trim() : '';
@@ -341,7 +341,7 @@ class QRCodeGenerator {
             case 'phone':
                 const phoneNum = this.phoneNumber ? this.phoneNumber.value.trim() : '';
                 if (!phoneNum) {
-                    this.showError('Please enter phone number');
+                    this.showError(window.i18n.t('errorPhoneNumber'));
                     return null;
                 }
                 return `tel:${phoneNum}`;
@@ -349,7 +349,7 @@ class QRCodeGenerator {
             case 'sms':
                 const smsNum = this.smsNumber ? this.smsNumber.value.trim() : '';
                 if (!smsNum) {
-                    this.showError('Please enter phone number');
+                    this.showError(window.i18n.t('errorPhoneNumber'));
                     return null;
                 }
                 const message = this.smsMessage ? this.smsMessage.value.trim() : '';
@@ -632,15 +632,15 @@ class QRCodeGenerator {
                             'image/png': blob
                         })
                     ]);
-                    this.showSuccess('QR Code copied to clipboard!');
+                    this.showSuccess(window.i18n.t('successCopy'));
                 } catch (err) {
                     console.error('Failed to copy:', err);
-                    this.showError('Failed to copy to clipboard');
+                    this.showError(window.i18n.t('errorCopyFailed'));
                 }
             });
         } catch (err) {
             console.error('Failed to copy:', err);
-            this.showError('Failed to copy to clipboard');
+            this.showError(window.i18n.t('errorCopyFailed'));
         }
     }
 

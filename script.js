@@ -269,14 +269,24 @@ class QRCodeGenerator {
 
     getQRData() {
         if (!this.contentTypeSelect) {
-            return this.textInput.value.trim();
+            const textData = this.textInput.value.trim();
+            if (!textData) {
+                this.showError(window.i18n.t('errorEmpty'));
+                return null;
+            }
+            return textData;
         }
 
         const type = this.contentTypeSelect.value;
 
         switch (type) {
             case 'text':
-                return this.textInput.value.trim();
+                const textData = this.textInput.value.trim();
+                if (!textData) {
+                    this.showError(window.i18n.t('errorEmpty'));
+                    return null;
+                }
+                return textData;
 
             case 'wifi':
                 if (!this.wifiSSID || !this.wifiSSID.value.trim()) {
@@ -360,7 +370,12 @@ class QRCodeGenerator {
                 return sms;
 
             default:
-                return this.textInput.value.trim();
+                const defaultData = this.textInput.value.trim();
+                if (!defaultData) {
+                    this.showError(window.i18n.t('errorEmpty'));
+                    return null;
+                }
+                return defaultData;
         }
     }
 

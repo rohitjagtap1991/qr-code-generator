@@ -5,6 +5,7 @@ class QRCodeGenerator {
     constructor() {
         // DOM Elements - Content Type
         this.contentTypeSelect = document.getElementById('content-type');
+        this.tabButtons = document.querySelectorAll('.tab-btn');
 
         // DOM Elements - Forms
         this.textForm = document.getElementById('text-form');
@@ -76,9 +77,23 @@ class QRCodeGenerator {
     }
 
     attachEventListeners() {
-        // Content type selector
+        // Content type selector (legacy dropdown support)
         if (this.contentTypeSelect) {
             this.contentTypeSelect.addEventListener('change', () => this.switchContentType());
+        }
+
+        // Tab buttons (new UI)
+        if (this.tabButtons) {
+            this.tabButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Remove active class from all tabs
+                    this.tabButtons.forEach(b => b.classList.remove('active'));
+                    // Add active class to clicked tab
+                    btn.classList.add('active');
+                    // Switch content type
+                    this.switchContentType(btn.dataset.type);
+                });
+            });
         }
 
         // Generate button
@@ -240,10 +255,9 @@ class QRCodeGenerator {
         }
     }
 
-    switchContentType() {
-        if (!this.contentTypeSelect) return;
-
-        const type = this.contentTypeSelect.value;
+    switchContentType(type = null) {
+        // Get type from parameter (tab click) or dropdown (legacy)
+        const contentType = type || (this.contentTypeSelect ? this.contentTypeSelect.value : 'text');
 
         // Hide all forms
         const forms = [this.textForm, this.wifiForm, this.vcardForm, this.emailForm, this.phoneForm, this.smsForm];
@@ -261,7 +275,7 @@ class QRCodeGenerator {
             'sms': this.smsForm
         };
 
-        const selectedForm = formMap[type];
+        const selectedForm = formMap[contentType];
         if (selectedForm) {
             selectedForm.style.display = 'flex';
         }

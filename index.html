@@ -112,16 +112,34 @@
                 <!-- Left Panel: Input & Options -->
                 <div class="input-panel">
                     <!-- Content Type Selector -->
-                    <div class="input-group">
-                        <label for="content-type" data-i18n="contentTypeLabel">Content Type</label>
-                        <select id="content-type">
-                            <option value="text" selected data-i18n-option="typeText">📝 Plain Text / URL</option>
-                            <option value="wifi" data-i18n-option="typeWifi">📶 WiFi Network</option>
-                            <option value="vcard" data-i18n-option="typeVCard">👤 Contact Card (vCard)</option>
-                            <option value="email" data-i18n-option="typeEmail">📧 Email</option>
-                            <option value="phone" data-i18n-option="typePhone">📞 Phone Number</option>
-                            <option value="sms" data-i18n-option="typeSMS">💬 SMS Message</option>
-                        </select>
+                    <div class="content-type-tabs">
+                        <div class="tabs-label" data-i18n="contentTypeLabel">Content Type</div>
+                        <div class="tabs-container">
+                            <button class="tab-btn active" data-type="text" title="Plain Text or URL">
+                                <span class="tab-icon">📝</span>
+                                <span class="tab-label" data-i18n="typeText">Text/URL</span>
+                            </button>
+                            <button class="tab-btn" data-type="wifi" title="WiFi Network">
+                                <span class="tab-icon">📶</span>
+                                <span class="tab-label" data-i18n="typeWifi">WiFi</span>
+                            </button>
+                            <button class="tab-btn" data-type="vcard" title="Contact Card (vCard)">
+                                <span class="tab-icon">👤</span>
+                                <span class="tab-label" data-i18n="typeVCard">vCard</span>
+                            </button>
+                            <button class="tab-btn" data-type="email" title="Email">
+                                <span class="tab-icon">📧</span>
+                                <span class="tab-label" data-i18n="typeEmail">Email</span>
+                            </button>
+                            <button class="tab-btn" data-type="phone" title="Phone Number">
+                                <span class="tab-icon">📞</span>
+                                <span class="tab-label" data-i18n="typePhone">Phone</span>
+                            </button>
+                            <button class="tab-btn" data-type="sms" title="SMS Message">
+                                <span class="tab-icon">💬</span>
+                                <span class="tab-label" data-i18n="typeSMS">SMS</span>
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Plain Text/URL Input (default) -->

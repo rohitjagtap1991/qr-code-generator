@@ -14,12 +14,12 @@ const translations = {
 
         // Content Type
         contentTypeLabel: "Content Type",
-        typeText: "📝 Plain Text / URL",
-        typeWifi: "📶 WiFi Network",
-        typeVCard: "👤 Contact Card (vCard)",
-        typeEmail: "📧 Email",
-        typePhone: "📞 Phone Number",
-        typeSMS: "💬 SMS Message",
+        typeText: "Text/URL",
+        typeWifi: "WiFi",
+        typeVCard: "vCard",
+        typeEmail: "Email",
+        typePhone: "Phone",
+        typeSMS: "SMS",
 
         // WiFi Form
         wifiSSIDLabel: "Network Name (SSID)",
@@ -181,12 +181,12 @@ const translations = {
 
         // Content Type
         contentTypeLabel: "Tipo de Contenido",
-        typeText: "📝 Texto Simple / URL",
-        typeWifi: "📶 Red WiFi",
-        typeVCard: "👤 Tarjeta de Contacto (vCard)",
-        typeEmail: "📧 Correo Electrónico",
-        typePhone: "📞 Número de Teléfono",
-        typeSMS: "💬 Mensaje SMS",
+        typeText: "Texto/URL",
+        typeWifi: "WiFi",
+        typeVCard: "vCard",
+        typeEmail: "Email",
+        typePhone: "Teléfono",
+        typeSMS: "SMS",
 
         // WiFi Form
         wifiSSIDLabel: "Nombre de Red (SSID)",

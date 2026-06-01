@@ -207,55 +207,108 @@ main {
 
 /* Content Type Tabs */
 .content-type-tabs {
-    margin-bottom: var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.tabs-label {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
 }
 
 .tabs-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 0;
-    background: #4A7C59;
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background: linear-gradient(135deg, rgba(79, 70, 229, 0.05), rgba(16, 185, 129, 0.05));
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--border-color);
 }
 
 .tab-btn {
-    flex: 0 0 auto;
-    padding: 0.875rem 1.5rem;
-    background: transparent;
-    border: none;
-    border-right: 1px solid rgba(255, 255, 255, 0.15);
+    flex: 1;
+    min-width: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.75rem 0.5rem;
+    background: white;
+    border: 2px solid transparent;
+    border-radius: var(--radius-md);
     cursor: pointer;
     transition: all 0.2s ease;
     font-family: inherit;
     position: relative;
+    overflow: hidden;
 }
 
-.tab-btn:last-child {
-    border-right: none;
+.tab-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 0;
+}
+
+.tab-btn:hover::before {
+    opacity: 0.05;
+}
+
+.tab-btn.active::before {
+    opacity: 0.1;
+}
+
+.tab-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.2s ease;
 }
 
 .tab-label {
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.85);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    white-space: nowrap;
-    display: block;
+    color: var(--text-secondary);
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    transition: color 0.2s ease;
 }
 
 .tab-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
+}
+
+.tab-btn:hover .tab-icon {
+    transform: scale(1.1);
 }
 
 .tab-btn:hover .tab-label {
-    color: white;
+    color: var(--text-primary);
 }
 
 .tab-btn.active {
-    background: #5A9B6D;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 16px rgba(79, 70, 229, 0.3);
+}
+
+.tab-btn.active::before {
+    opacity: 0;
 }
 
 .tab-btn.active .tab-label {
@@ -263,37 +316,37 @@ main {
     font-weight: 700;
 }
 
-/* Mobile: Scrollable horizontal tabs */
-@media (max-width: 768px) {
+.tab-btn:active {
+    transform: translateY(0);
+}
+
+/* Mobile: Stack tabs in 2 columns */
+@media (max-width: 600px) {
     .tabs-container {
-        overflow-x: auto;
-        flex-wrap: nowrap;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; /* Firefox */
-        -ms-overflow-style: none; /* IE/Edge */
-    }
-    
-    .tabs-container::-webkit-scrollbar {
-        display: none; /* Chrome/Safari */
+        gap: 0.4rem;
     }
     
     .tab-btn {
-        padding: 0.75rem 1.25rem;
+        flex: 1 1 calc(50% - 0.2rem);
+        min-width: 0;
+        padding: 0.6rem 0.4rem;
+    }
+    
+    .tab-icon {
+        font-size: 1.25rem;
     }
     
     .tab-label {
-        font-size: 0.8125rem;
+        font-size: 0.65rem;
     }
 }
 
-@media (max-width: 480px) {
+/* Very small screens: Single column */
+@media (max-width: 380px) {
     .tab-btn {
-        padding: 0.625rem 1rem;
+        flex: 1 1 100%;
     }
-    
-    .tab-label {
-        font-size: 0.75rem;
-        letter-spacing: 0.03em;
+}
 
 .input-group {
     display: flex;

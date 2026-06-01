@@ -14,12 +14,11 @@ const translations = {
 
         // Content Type
         contentTypeLabel: "Content Type",
-        typeText: "URL",
-        typeTextPlain: "TEXT",
-        typeWifi: "WIFI",
-        typeVCard: "VCARD",
-        typeEmail: "EMAIL",
-        typePhone: "PHONE",
+        typeText: "Text/URL",
+        typeWifi: "WiFi",
+        typeVCard: "vCard",
+        typeEmail: "Email",
+        typePhone: "Phone",
         typeSMS: "SMS",
 
         // WiFi Form
@@ -182,12 +181,11 @@ const translations = {
 
         // Content Type
         contentTypeLabel: "Tipo de Contenido",
-        typeText: "URL",
-        typeTextPlain: "TEXTO",
-        typeWifi: "WIFI",
-        typeVCard: "VCARD",
-        typeEmail: "EMAIL",
-        typePhone: "TELÉFONO",
+        typeText: "Texto/URL",
+        typeWifi: "WiFi",
+        typeVCard: "vCard",
+        typeEmail: "Email",
+        typePhone: "Teléfono",
         typeSMS: "SMS",
 
         // WiFi Form
